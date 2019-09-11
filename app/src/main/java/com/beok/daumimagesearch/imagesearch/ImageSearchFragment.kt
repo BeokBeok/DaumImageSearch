@@ -3,6 +3,7 @@ package com.beok.daumimagesearch.imagesearch
 
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import androidx.lifecycle.Observer
 import com.beok.daumimagesearch.BR
 import com.beok.daumimagesearch.R
 import com.beok.daumimagesearch.base.BaseFragment
@@ -23,6 +24,7 @@ class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearch
         binding.vm = viewModel
         initRecyclerView()
         setKeypadEditorActionListener()
+        setObserve()
     }
 
     private fun initRecyclerView() {
@@ -36,7 +38,7 @@ class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearch
     }
 
     private fun setKeypadEditorActionListener() {
-        binding.etSearchBar.run {
+        binding.etSearch.run {
             imeOptions = EditorInfo.IME_ACTION_DONE
             setOnEditorActionListener { textView, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -47,5 +49,17 @@ class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearch
                 }
             }
         }
+    }
+
+    private fun setObserve() {
+        binding.vm?.errMsg?.observe(
+            this,
+            Observer {
+                showSnackbar(
+                    binding.clMain,
+                    it.message
+                )
+            }
+        )
     }
 }

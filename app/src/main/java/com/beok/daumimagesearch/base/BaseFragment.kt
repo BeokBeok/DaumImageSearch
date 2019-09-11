@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
     @LayoutRes
@@ -31,4 +32,13 @@ abstract class BaseFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         binding.lifecycleOwner = this
         return binding.root
     }
+
+    protected fun showSnackbar(
+        layout: View,
+        msg: String?
+    ) = Snackbar.make(
+        layout,
+        msg?.let { it } ?: "",
+        Snackbar.LENGTH_SHORT
+    ).show()
 }

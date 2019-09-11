@@ -17,16 +17,26 @@ class ImageSearchViewModel(
     val errMsg: LiveData<Throwable> get() = _errMsg
 
     fun searchImage(searchWord: String) {
-        addDisposable(
-            imageSearchRepository.searchImage(
-                searchWord,
-                onSuccess = {
-                    _imageList.value = it
-                },
-                onFail = {
-                    _errMsg.value = it
-                }
+        if (searchWord.isEmpty()) {
+            setEmpty()
+        } else {
+            addDisposable(
+                imageSearchRepository.searchImage(
+                    searchWord,
+                    onSuccess = {
+                        if (it.isEmpty()) setEmpty()
+                        else _imageList.value = it
+                    },
+                    onFail = {
+                        _errMsg.value = it
+                    }
+                )
             )
-        )
+        }
+    }
+
+    private fun setEmpty() {
+        _imageList.value = listOf()
+        _errMsg.value = IllegalStateException("검색 결과가 없습니다.")
     }
 }
