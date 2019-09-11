@@ -10,10 +10,13 @@ import com.beok.daumimagesearch.base.BaseRecyclerView
 import com.beok.daumimagesearch.data.model.ImagesItem
 import com.beok.daumimagesearch.databinding.FragmentImageSearchBinding
 import com.beok.daumimagesearch.databinding.RvImageSearchItemBinding
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding>(
+class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearchViewModel>(
     R.layout.fragment_image_search
 ) {
+
+    override val viewModel by viewModel<ImageSearchViewModel>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
