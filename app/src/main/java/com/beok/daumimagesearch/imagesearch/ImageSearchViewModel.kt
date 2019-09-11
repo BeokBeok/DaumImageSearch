@@ -12,22 +12,27 @@ class ImageSearchViewModel(
 
     private val _imageList = MutableLiveData<List<ImagesItem>>()
     private val _errMsg = MutableLiveData<Throwable>()
+    private val _isLoading = MutableLiveData<Boolean>()
 
     val imageList: LiveData<List<ImagesItem>> get() = _imageList
     val errMsg: LiveData<Throwable> get() = _errMsg
+    val isLoading: LiveData<Boolean> get() = _isLoading
 
     fun searchImage(searchWord: String) {
         if (searchWord.isEmpty()) {
             setEmpty()
         } else {
+            _isLoading.value = true
             addDisposable(
                 imageSearchRepository.searchImage(
                     searchWord,
                     onSuccess = {
+                        _isLoading.value = false
                         if (it.isEmpty()) setEmpty()
                         else _imageList.value = it
                     },
                     onFail = {
+                        _isLoading.value = false
                         _errMsg.value = it
                     }
                 )
