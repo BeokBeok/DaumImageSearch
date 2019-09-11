@@ -18,9 +18,9 @@ class ImageSearchRemoteDataSource(
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({
-
+            onSuccess(it.documents)
         }, {
-
+            onFail(it)
         })
 
 }

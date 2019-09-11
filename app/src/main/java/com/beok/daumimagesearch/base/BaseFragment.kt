@@ -28,6 +28,7 @@ abstract class BaseFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
             container,
             false
         )
+        binding.lifecycleOwner = this
         return binding.root
     }
 }

@@ -20,6 +20,7 @@ class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearch
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        binding.vm = viewModel
         initRecyclerView()
         setKeypadEditorActionListener()
     }
