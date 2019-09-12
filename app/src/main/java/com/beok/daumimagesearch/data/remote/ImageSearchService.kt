@@ -12,6 +12,10 @@ interface ImageSearchService {
     @GET("v2/search/image")
     fun getImage(
         @Query("query")
-        searchWord: String
+        searchWord: String,
+        @Query("page")
+        page: Int,
+        @Query("size")
+        size: Int = 10
     ): Single<ImageResponse>
 }

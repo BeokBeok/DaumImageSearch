@@ -3,6 +3,8 @@ package com.beok.daumimagesearch.imagesearch
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.beok.daumimagesearch.BR
 import com.beok.daumimagesearch.R
 import com.beok.daumimagesearch.base.BaseFragment
@@ -37,6 +39,18 @@ class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearch
                 R.layout.rv_image_search_item,
                 BR.imageList
             ) {}
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(
+                    recyclerView: RecyclerView,
+                    newState: Int
+                ) {
+                    if (newState != RecyclerView.SCROLL_STATE_IDLE) {
+                        val lastVisibleItemPos =
+                            (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                        if (lastVisibleItemPos + 1 == adapter?.itemCount) binding.vm?.searchNextImage()
+                    }
+                }
+            })
         }
     }
 
@@ -58,7 +72,7 @@ class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearch
             }.debounce(1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    binding.vm?.searchImage(it.toString())
+                    binding.vm?.searchImage()
                 }
         )
     }
