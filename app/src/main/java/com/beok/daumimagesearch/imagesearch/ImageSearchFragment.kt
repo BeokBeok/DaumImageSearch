@@ -64,16 +64,19 @@ class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearch
                         before: Int,
                         count: Int
                     ) {
-                        char?.let {
-                            emitter.onNext(it)
-                        }
+                        char?.let { emitter.onNext(it) }
                     }
                 })
             }.debounce(1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
+                .subscribe({
                     binding.vm?.searchImage()
-                }
+                }, {
+                    showSnackbar(
+                        binding.clMain,
+                        it.message
+                    )
+                })
         )
     }
 
