@@ -3,11 +3,11 @@ package com.beok.daumimagesearch.imagesearch
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.beok.daumimagesearch.base.BaseViewModel
-import com.beok.daumimagesearch.data.ImageSearchRepository
+import com.beok.daumimagesearch.data.ImageSearchDataSource
 import com.beok.daumimagesearch.data.model.ImagesItem
 
 class ImageSearchViewModel(
-    private val imageSearchRepository: ImageSearchRepository
+    private val imageSearchRepository: ImageSearchDataSource
 ) : BaseViewModel() {
 
     private val _searchedList = MutableLiveData<List<ImagesItem>>()
@@ -45,7 +45,7 @@ class ImageSearchViewModel(
     private fun requestImageSearch() {
         _isLoading.value = true
         addDisposable(
-            imageSearchRepository.searchImage(
+            imageSearchRepository.getImageList(
                 searchWord,
                 _page,
                 onSuccess = {

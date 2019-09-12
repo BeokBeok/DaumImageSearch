@@ -1,14 +1,13 @@
 package com.beok.daumimagesearch.data
 
 import com.beok.daumimagesearch.data.model.ImageResponse
-import com.beok.daumimagesearch.data.remote.ImageSearchRemoteDataSource
 import io.reactivex.disposables.Disposable
 
 class ImageSearchRepository(
-    private val imageSearchRemoteDataSource: ImageSearchRemoteDataSource
-) {
+    private val imageSearchRemoteDataSource: ImageSearchDataSource
+) : ImageSearchDataSource {
 
-    fun searchImage(
+    override fun getImageList(
         searchWord: String,
         page: Int,
         onSuccess: (ImageResponse) -> Unit,
