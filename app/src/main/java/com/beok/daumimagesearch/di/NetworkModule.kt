@@ -2,6 +2,7 @@ package com.beok.daumimagesearch.di
 
 import com.beok.daumimagesearch.BuildConfig
 import com.beok.daumimagesearch.data.remote.ImageSearchService
+import com.beok.daumimagesearch.util.KakaoInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -22,6 +23,7 @@ fun getRemoteServiceModule(url: String) = module {
     single {
         OkHttpClient.Builder()
             .addInterceptor(get<HttpLoggingInterceptor>())
+            .addInterceptor { KakaoInterceptor.intercept(it) }
             .build()
     }
     single { GsonConverterFactory.create() }
