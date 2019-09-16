@@ -22,17 +22,15 @@ class ImageSearchViewModel(
     val errMsg: LiveData<Throwable> get() = _errMsg
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    var searchWord = ""
-
-    fun searchImage() {
+    fun searchImage(searchWord: String) {
         clearList()
-        requestImageSearch()
+        requestImageSearch(searchWord)
     }
 
-    fun searchNextImage() {
+    fun searchNextImage(searchWord: String) {
         if (_isEnd) return
         _page++
-        requestImageSearch()
+        requestImageSearch(searchWord)
     }
 
     private fun clearList() {
@@ -42,7 +40,12 @@ class ImageSearchViewModel(
         _searchedList.value = _documents
     }
 
-    private fun requestImageSearch() {
+    private fun requestImageSearch(searchWord: String) {
+        if (searchWord.isEmpty()) {
+            clearList()
+            _errMsg.value = IllegalStateException("검색어가 없습니다.")
+            return
+        }
         _isLoading.value = true
         addDisposable(
             imageSearchRepository.getImageList(

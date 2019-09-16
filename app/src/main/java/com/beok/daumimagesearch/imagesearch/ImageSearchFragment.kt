@@ -47,7 +47,9 @@ class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearch
                     if (newState != RecyclerView.SCROLL_STATE_IDLE) {
                         val lastVisibleItemPos =
                             (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                        if (lastVisibleItemPos + 1 == adapter?.itemCount) binding.vm?.searchNextImage()
+                        if (lastVisibleItemPos + 1 == adapter?.itemCount) {
+                            binding.vm?.searchNextImage(binding.etSearch.text.toString())
+                        }
                     }
                 }
             })
@@ -70,7 +72,7 @@ class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearch
             }.debounce(1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    binding.vm?.searchImage()
+                    binding.vm?.searchImage(it.toString())
                 }, {
                     showSnackbar(
                         binding.clMain,
