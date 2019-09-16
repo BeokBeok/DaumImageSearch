@@ -44,10 +44,14 @@ class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearch
                     recyclerView: RecyclerView,
                     newState: Int
                 ) {
-                    if (newState != RecyclerView.SCROLL_STATE_IDLE) {
-                        val lastVisibleItemPos =
-                            (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                        if (lastVisibleItemPos + 1 == adapter?.itemCount) {
+                    super.onScrollStateChanged(
+                        recyclerView,
+                        newState
+                    )
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) return
+                    adapter?.itemCount?.let {
+                        if ((layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 2 >= it
+                        ) {
                             binding.vm?.searchNextImage(binding.etSearch.text.toString())
                         }
                     }
