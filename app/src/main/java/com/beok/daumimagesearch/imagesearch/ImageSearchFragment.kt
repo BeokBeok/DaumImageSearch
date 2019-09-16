@@ -49,10 +49,12 @@ class ImageSearchFragment : BaseFragment<FragmentImageSearchBinding, ImageSearch
                         newState
                     )
                     if (newState == RecyclerView.SCROLL_STATE_IDLE) return
+                    val searchWord = binding.etSearch.text.toString()
+                    if (searchWord.isEmpty()) return
                     adapter?.itemCount?.let {
                         if ((layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 2 >= it
                         ) {
-                            binding.vm?.searchNextImage(binding.etSearch.text.toString())
+                            binding.vm?.searchNextImage(searchWord)
                         }
                     }
                 }
